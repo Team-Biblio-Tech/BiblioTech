@@ -1,4 +1,4 @@
-# cgnstech - Grupo 4
+# CGNSTECH - Grupo 4
 ### Integrantes:
 ```
  - Rivera Deza Alvaro
