@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-//Controller1
+//Controller
 const { create,
         read, 
-        readId,
+        readById,
         update, 
         //delet,
         remove,
@@ -14,7 +14,7 @@ router.post('/', create);
 
 router.get('/', read);
 
-router.get('/:id', readId);
+router.get('/:id', readById);
 
 router.put('/:id', update);
 
