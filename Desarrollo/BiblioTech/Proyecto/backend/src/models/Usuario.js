@@ -22,7 +22,6 @@ const Usuario = new Schema({
     imagen: {
         type: String
     }
-	//falta crear tabla de persona
     //falta un id para unir usuario y persona
     //guarda imagen
     /*,photo: {
