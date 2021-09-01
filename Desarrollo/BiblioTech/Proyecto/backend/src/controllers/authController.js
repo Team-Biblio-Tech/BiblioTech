@@ -1,4 +1,5 @@
 const { getRol } = require('../dao/rolDAO');
+const { errorHandler } = require('../helpers/dbErrorHandler');
 const { addUsuario, findUsuarioWithRole } = require('../dao/usuarioDAO');
 const { addPersona } = require('../dao/personaDAO');
 const Usuario = require('../models/Usuario');
@@ -27,9 +28,9 @@ exports.register = async (req, res) => {
         foto_tipo = null
       }
     }
-
-    let usuario = await addUsuario(data.usuario, await bcrypt.hash(data.contrasenia, saltRounds), data.correo, rol.id, foto_data, foto_tipo).catch(e => {
-      respuesta.err.push("error al añadir user")
+    let usuario = await addUsuario(data.usuario, await bcrypt.hash(data.contrasenia, saltRounds), data.correo, rol.id, foto_data, foto_tipo).catch(e => {     
+      console.log(e) 
+      respuesta.err.push("Error al insertar usuario")
       res.status(422)
     })
     
@@ -42,13 +43,23 @@ exports.register = async (req, res) => {
         respuesta.msg = "añadido exitosamente"
         res.status(201)
       } )
+      const token = jwt.sign({ _id: usuario._id }, process.env.JWT_SECRET)
+      res.cookie('t', token, { expire: new Date() + 9999 })
+      respuesta.token = token
+      respuesta.user = {
+        _id : usuario._id,
+        correo : usuario.correo,
+        nombre : usuario.nombre + ' ' + usuario.apellido,
+        rol : usuario.rol,
+      }
+      respuesta.ok = true 
     }
 
   } else {
     respuesta.err.push("rol no existe")
     res.status(422)
   }
-  respuesta.ok = true 
+ 
   res.json(respuesta);
 
 }

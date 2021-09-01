@@ -1,6 +1,3 @@
-const { errorHandler}  = require('../helpers/dbErrorHandler');
-//Model
-const Favorito = require('../models/Favorito');
 const { addFavorito,  findFavoritoByUser, findFavoritoByLib, findFavoritoRank, removeFavorito, updateFavorito } = require('../dao/favoritoDAO')
 const {findLibroById } = require('../dao/libroDAO')
 
@@ -17,7 +14,7 @@ exports.create = async (req, res) => {
             msg: "Este libro ya esta en la lista de favoritos"
         });
     }
-    if(confirm.error){
+    if(confirm.status == 0){
         return res.status(400).json(confirm);
     }
     return res.json(confirm);   
@@ -25,9 +22,11 @@ exports.create = async (req, res) => {
 async function verificar(id_usuario,id_libro){
     let confirm = 0;
     let ver = await findFavoritoByLib(id_libro);
+    console.log(ver)
     if(ver!=[]){
         for(i=0;i<ver.length;i++){
-            if(ver.id_usuario==id_usuario){                
+            if(ver[i].id_usuario==id_usuario){     
+                console.log(id_libro)           
                 confirm = 1;
                 break;
             }
@@ -46,7 +45,7 @@ exports.readRank = async (req, res) => {
         cantidad
     } = req.query;
     let data = await findFavoritoRank(cantidad);
-    if(data.error){
+    if(data.status == 0){
         return res.status(400).json(data);
     }
     return res.json(data);
@@ -68,7 +67,7 @@ exports.readByUser = async (req, res) => {
     }else{
         data = datos;
     }
-    if(data.error){
+    if(data.status == 0){
         return res.status(400).json(data);
     }
     return res.json(data);
@@ -79,7 +78,7 @@ exports.readByLib = async (req, res) => {
         id_libro
     } = req.query;
     let data = await findFavoritoByLib(id_libro);
-    if(data.error){
+    if(data.status == 0){
         return res.status(400).json(data);
     }
     return res.json(data);
@@ -88,7 +87,7 @@ exports.readByLib = async (req, res) => {
 exports.update = async (req, res) => {
     let data = req.body;
     let confirm = await updateFavorito(req.params.id, data.id_usuario, data.id_libro);
-    if(confirm.error){
+    if(confirm.status == 0){
         return res.status(400).json(confirm);
     }
     return res.json(confirm);
@@ -97,9 +96,8 @@ exports.update = async (req, res) => {
 exports.remove = async (req, res) => {
     let data = req.body
     let confirm = await removeFavorito(data.id_usuario,data.id_libro);
-    if(confirm.error){
+    if(confirm.status == 0){
         return res.status(400).json(confirm);
     }
     return res.json(confirm);
 }
-
