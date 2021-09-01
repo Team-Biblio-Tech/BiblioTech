@@ -6,18 +6,19 @@ const { create,
         read, 
         readById,
         update, 
-        remove } = require('../controllers/usuarioController');
+        remove,
+        objectById } = require('../controllers/personaController');
 
 router.post('/', create);
 
 router.get('/', read);
 
-router.get('/id', readById);
+router.get('/:id', readById);
 
 router.put('/:id', update);
 
 router.delete('/:id', remove);
 
-//router.param('id', objectById);
+router.param('id', objectById);
 
 module.exports = router;

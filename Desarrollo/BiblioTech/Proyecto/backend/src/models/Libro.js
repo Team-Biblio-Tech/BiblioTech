@@ -14,7 +14,7 @@ const Libro = new Schema({
         type: String,
         required: true
     },
-    genero: {
+    categoria: {
         type: String,
         required: true
     },
@@ -22,9 +22,13 @@ const Libro = new Schema({
         type: String,
         required: true
     },
-    fec_pub: {
+    fch_pub: {
         type: Date,
         required: true
+    },
+    imagen: {
+        data: Buffer,
+        contentType: String,
     }
 });
 

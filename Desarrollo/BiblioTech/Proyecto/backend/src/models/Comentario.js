@@ -8,17 +8,25 @@ const Comentario = new Schema({
         trim: true,
         required: true,
         maxlength: 2000
-    },    
+    },
+    es_comentario : {
+        type: Number, // 1 comentario 0 respuesta
+    },
     id_usuario: {
-        type: String,
-       // type: ObjectId,
-       // ref: "Usuario",
+        type: ObjectId,
+        ref: "Usuario",
         required: true
     },
     id_libro: {
-        type: String,
+        type: ObjectId,
+        ref: "Libro",
         required: true
-    }
+    },
+    id_respuesta:[{
+        type: ObjectId,
+        ref: "Comentario",
+        required: false       
+    }]
 },{timestamps: true});
 
 module.exports = mongoose.model('Comentario', Comentario);

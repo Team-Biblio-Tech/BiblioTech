@@ -3,25 +3,26 @@ const router = express.Router();
 
 //Controller
 const { create,
-        read, 
-        readById,
+        readRank, 
+        readByUser,
+        readByLib,
+        verify,
         update, 
         //delet,
-        remove,
-        objectById } = require('../controllers/favoritoController');
+        remove} = require('../controllers/favoritoController');
 
 router.post('/', create);
 
-router.get('/', read);
+router.get('/rank', readRank);
 
-router.get('/:id', readById);
+router.get('/user', readByUser);
+
+router.get('/ver',verify)
+
+router.get('/lib', readByLib);
 
 router.put('/:id', update);
 
-//router.delete('/:id', delet);
-
-router.delete('/:id', remove);
-
-router.param('id', objectById);
+router.delete('/', remove);
 
 module.exports = router;
